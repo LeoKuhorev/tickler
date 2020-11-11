@@ -14,13 +14,25 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path, re_path
 from django.views.generic import TemplateView
-
 
 urlpatterns = [
     # React frontend
     path('', TemplateView.as_view(template_name='index.html')),
     
+    # Users
+    path('api/v1/user/', include('users.urls')),
+
+    # Auth for browsable API
+    path('api/v1/auth/', include('rest_framework.urls')),
+
+    # Admin tickler
+    path('api/v1', include('admin_tickler.urls')),
+    
+    # Django admin
     path('admin/', admin.site.urls),
+    
+    # React frontend
+    re_path(r'.*', TemplateView.as_view(template_name='index.html')),
 ]

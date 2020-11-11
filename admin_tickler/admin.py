@@ -1,17 +1,12 @@
 from django.contrib import admin
 
-from .models import Address, Employee, Expirations, Role
+from .models import Address, Employee, Expirations
 
 
 @admin.register(Address)
 class AddressAdmin(admin.ModelAdmin):
     list_display = ('address_one', 'address_two', 'city', 'state', 'zip_code')
     search_fields = ('address_one', 'zip_code')
-
-
-@admin.register(Role)
-class RoleAdmin(admin.ModelAdmin):
-    list_display = ('name', )
 
 
 @admin.register(Employee)

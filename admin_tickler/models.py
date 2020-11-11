@@ -1,6 +1,8 @@
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from users.models import CustomUser
+import uuid
+
 
 
 class Address(models.Model):
@@ -56,6 +58,7 @@ class Address(models.Model):
         ("WI", "Wisconsin"),
         ("WY", "Wyoming"),
     )
+    
     address_one = models.CharField(max_length=128)
     address_two = models.CharField(max_length=128, blank=True, null=True)
     city = models.CharField(max_length=128)
@@ -67,18 +70,13 @@ class Address(models.Model):
         return f'{self.address_one} {self.address_two}, {self.city}, {self.state} {self.zip_code}'
 
 
-class Role(models.Model):
+class Employee(models.Model):
     ROLE_CHOICES = (
         ("CSM", "Client Service Manager"),
         ("HRRC", "HR and RC"),
     )
-    name = models.CharField(max_length=30, choices=ROLE_CHOICES)
-
-    def __str__(self):
-        return self.name
-
-
-class Employee(models.Model):
+    
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField(
@@ -86,7 +84,7 @@ class Employee(models.Model):
     phone_number = PhoneNumberField(null=True, blank=True)
     address = models.ForeignKey(
         Address, on_delete=models.SET_NULL, null=True, blank=True)
-    role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True)
+    role = models.CharField(max_length=30, choices=ROLE_CHOICES)
     manager = models.ForeignKey(
         CustomUser, on_delete=models.SET_NULL, null=True)
 
