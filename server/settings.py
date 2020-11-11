@@ -52,12 +52,14 @@ INSTALLED_APPS = [
 
     # My apps
     'users.apps.UsersConfig',
+    'admin_tickler.apps.AdminTicklerConfig',
 
     # 3rd party apps
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'whitenoise.runserver_nostatic',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [
@@ -210,3 +212,6 @@ STATICFILES_DIRS = ['frontend/build/static']
 
 # CORS allowed hosts
 CORS_ALLOWED_ORIGINS = tuple(env.list('CORS_ALLOWED_ORIGINS'))
+
+# Phone number settings
+PHONENUMBER_DB_FORMAT='NATIONAL'
